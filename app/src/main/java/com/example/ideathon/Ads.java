@@ -4,15 +4,17 @@ public class Ads {
     private String company;
     private String detail;
     private String photoUrl;
+    private String offerUrl;
 
     public Ads() {
 
     }
 
-    public Ads(String company, String detail, String photoUrl) {
+    public Ads(String company, String detail, String photoUrl, String offerUrl) {
         this.company = company;
         this.detail = detail;
         this.photoUrl = photoUrl;
+        this.offerUrl = offerUrl;
     }
 
     public String getCompany() {
@@ -37,5 +39,13 @@ public class Ads {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public String getOfferUrl() {
+        return offerUrl;
+    }
+
+    public void setOfferUrl(String offerUrl) {
+        this.offerUrl = offerUrl;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.ideathon;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -25,13 +26,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdsAdapter.ItemClickHandler {
 
     static FirebaseDatabase firebaseDatabase = null;
     private ArrayList<Place> placeArrayList;
     private AdsAdapter vodafoneAdsAdapter, partnerAdsAdapter, locationAdsAdapter;
     private DatabaseReference vodafoneDatabaseReference, partnerDatabaseReference, locationDatabaseReference;
+    private HashSet<String> stringHashSet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,19 +43,19 @@ public class MainActivity extends AppCompatActivity {
 
         initVariables();
 
+        retrieveNearbyPlaces();
+
+        Log.v("asd", "asd");
+
         setUpRecyclerView();
 
         setUpDatabase();
-
-        setUpDatabaseReferences();
-
-
-        retrieveNearbyPlaces();
 
     }
 
     private void initVariables() {
         placeArrayList = new ArrayList<>();
+        stringHashSet = new HashSet<>();
     }
 
     private void retrieveNearbyPlaces() {
@@ -75,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 Log.v("Places", "Size:" + placeArrayList.size());
                 responses.release();
+                for (Place p : placeArrayList) {
+                    stringHashSet.add(p.getName().toString().trim().toLowerCase());
+                }
+                setUpDatabaseReferences();
             }
         });
     }
@@ -86,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         vodafoneAdsAdapter = new AdsAdapter(new ArrayList<Ads>());
         vodafoneAdsRecyclerView.setAdapter(vodafoneAdsAdapter);
+        vodafoneAdsAdapter.setItemClickHandler(this);
 
         RecyclerView partnerAdsRecyclerView = findViewById(R.id.main_recycler_view_partner_ads);
         partnerAdsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -93,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
         partnerAdsAdapter = new AdsAdapter(new ArrayList<Ads>());
         partnerAdsRecyclerView.setAdapter(partnerAdsAdapter);
+        partnerAdsAdapter.setItemClickHandler(this);
 
         RecyclerView locationAdsRecyclerView = findViewById(R.id.main_recycler_view_location_id);
         locationAdsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -100,13 +109,14 @@ public class MainActivity extends AppCompatActivity {
 
         locationAdsAdapter = new AdsAdapter(new ArrayList<Ads>());
         locationAdsRecyclerView.setAdapter(locationAdsAdapter);
+        locationAdsAdapter.setItemClickHandler(this);
     }
 
     void setUpDatabase() {
         if (firebaseDatabase == null) {
             firebaseDatabase = FirebaseDatabase.getInstance();
             firebaseDatabase.setPersistenceEnabled(true);
-            firebaseDatabase.setPersistenceCacheSizeBytes(2 * 1024 * 1024);
+            firebaseDatabase.setPersistenceCacheSizeBytes(5 * 1024 * 1024);
         }
     }
 
@@ -197,8 +207,11 @@ public class MainActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Ads msg = dataSnapshot.getValue(Ads.class);
                 if (msg != null) {
-                    locationAdsAdapter.add(msg);
-                    locationAdsAdapter.notifyDataSetChanged();
+                    Log.v("Location", msg.getCompany());
+                    if (stringHashSet.contains(msg.getCompany().trim().toLowerCase())) {
+                        locationAdsAdapter.add(msg);
+                        locationAdsAdapter.notifyDataSetChanged();
+                    }
                 } else {
                     Log.v("MainActivity", "msg is null");
                 }
@@ -226,4 +239,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onAdClick(Ads ad) {
+        Intent intent = new Intent(MainActivity.this, WebActivity.class);
+        intent.putExtra(getString(R.string.url), ad.getOfferUrl());
+        startActivity(intent);
+    }
 }

@@ -71,6 +71,7 @@ public class AdsAdapter extends RecyclerView.Adapter<AdsAdapter.AdsViewHolder> {
             image = itemView.findViewById(R.id.logo_image_view);
             name = itemView.findViewById(R.id.company_text_view);
             detail = itemView.findViewById(R.id.detail_text_view);
+            itemView.setOnClickListener(this);
         }
 
         @Override
