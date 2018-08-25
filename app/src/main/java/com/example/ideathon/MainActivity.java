@@ -1,15 +1,19 @@
 package com.example.ideathon;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.location.places.Place;
@@ -27,9 +31,11 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements AdsAdapter.ItemClickHandler {
 
+    private static final int SPEECH_INPUT_REQUESTCODE = 100;
     static FirebaseDatabase firebaseDatabase = null;
     private ArrayList<Place> placeArrayList;
     private AdsAdapter vodafoneAdsAdapter, partnerAdsAdapter, locationAdsAdapter;
@@ -39,9 +45,11 @@ public class MainActivity extends AppCompatActivity implements AdsAdapter.ItemCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_coordinator);
 
         initVariables();
+
+        initView();
 
         retrieveNearbyPlaces();
 
@@ -51,6 +59,16 @@ public class MainActivity extends AppCompatActivity implements AdsAdapter.ItemCl
 
         setUpDatabase();
 
+    }
+
+    private void initView() {
+        FloatingActionButton floatingActionButton = findViewById(R.id.floatingActionButton);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startVoiceInput();
+            }
+        });
     }
 
     private void initVariables() {
@@ -239,6 +257,35 @@ public class MainActivity extends AppCompatActivity implements AdsAdapter.ItemCl
 
             }
         });
+    }
+
+    private void startVoiceInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Hello, How can I help you?");
+        try {
+            startActivityForResult(intent, SPEECH_INPUT_REQUESTCODE);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case SPEECH_INPUT_REQUESTCODE: {
+                if (resultCode == RESULT_OK && null != data) {
+                    ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+
+                    Toast.makeText(MainActivity.this, result.get(0), Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
+
+        }
     }
 
     @Override
