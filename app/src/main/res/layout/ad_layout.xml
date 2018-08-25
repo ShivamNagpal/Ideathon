@@ -1,43 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-    android:layout_margin="8dp"
-    android:padding="8dp">
+    android:layout_marginLeft="12dp"
+    android:layout_marginTop="4dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="8dp">
 
-    <ImageView
-        android:id="@+id/logo_image_view"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:background="@drawable/rectangle"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/company_text_view"
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="2dp"
-        android:ellipsize="end"
-        android:maxLines="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo_image_view"
-        tools:text="Name" />
+        android:layout_gravity="center_horizontal"
+        android:background="@color/primary_dark">
 
-    <TextView
-        android:id="@+id/detail_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="2dp"
-        android:ellipsize="end"
-        android:maxLines="2"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/company_text_view"
-        tools:text="Detail" />
-</android.support.constraint.ConstraintLayout>
+        <ImageView
+            android:id="@+id/logo_image_view"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:background="@drawable/rectangle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/company_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/icons"
+            android:textSize="18sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logo_image_view"
+            tools:text="Name" />
+
+
+        <TextView
+            android:id="@+id/detail_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:paddingBottom="4dp"
+            android:textColor="@color/icons"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/company_text_view"
+            tools:text="Details" />
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>
