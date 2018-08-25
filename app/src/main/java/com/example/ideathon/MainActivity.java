@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         retrieveNearbyPlaces();
+
     }
 
     private void initVariables() {
