@@ -11,9 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceDetectionClient;
 import com.google.android.gms.location.places.PlaceLikelihood;
@@ -29,10 +26,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MainActivity extends AppCompatActivity {
 
     static FirebaseDatabase firebaseDatabase = null;
-    private GoogleApiClient googleApiClient;
     private ArrayList<Place> placeArrayList;
     private AdsAdapter vodafoneAdsAdapter, partnerAdsAdapter, locationAdsAdapter;
     private DatabaseReference vodafoneDatabaseReference, partnerDatabaseReference, locationDatabaseReference;
@@ -50,24 +46,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         setUpDatabaseReferences();
 
-        setUpGoogleApi();
 
+        retrieveNearbyPlaces();
     }
 
     private void initVariables() {
         placeArrayList = new ArrayList<>();
-    }
-
-    private void setUpGoogleApi() {
-        googleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(LocationServices.API)
-                .addApi(Places.GEO_DATA_API)
-                .addApi(Places.PLACE_DETECTION_API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .enableAutoManage(this, this)
-                .build();
-        googleApiClient.connect();
     }
 
     private void retrieveNearbyPlaces() {
@@ -88,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 for (PlaceLikelihood response : responses) {
                     placeArrayList.add(response.getPlace().freeze());
                 }
+                Log.v("Places", "Size:" + placeArrayList.size());
                 responses.release();
             }
         });
@@ -240,18 +225,4 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         });
     }
 
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        retrieveNearbyPlaces();
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(this, "No Internet", Toast.LENGTH_SHORT).show();
-    }
 }
