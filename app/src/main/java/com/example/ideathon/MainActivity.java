@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity implements AdsAdapter.ItemCl
                 }
                 Log.v("Places", "Size:" + placeArrayList.size());
                 responses.release();
-                responses.release();
 
                 for (Place p : placeArrayList) {
                     stringHashSet.add(p.getName().toString().trim().toLowerCase());
@@ -119,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements AdsAdapter.ItemCl
         if (firebaseDatabase == null) {
             firebaseDatabase = FirebaseDatabase.getInstance();
             firebaseDatabase.setPersistenceEnabled(true);
-            firebaseDatabase.setPersistenceCacheSizeBytes(5* 1024 * 1024);
+            firebaseDatabase.setPersistenceCacheSizeBytes(5 * 1024 * 1024);
         }
     }
 
