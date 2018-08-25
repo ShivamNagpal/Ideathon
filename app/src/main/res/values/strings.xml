@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Ideathon</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="vodafone_offers">Vodafone Offers</string>
+    <string name="partner_offers">Partner Offers</string>
+    <string name="location_based_offers">Location Based Offers</string>
 </resources>
