@@ -6,4 +6,5 @@
     <string name="vodafone_offers">Vodafone Offers</string>
     <string name="partner_offers">Partner Offers</string>
     <string name="location_based_offers">Location Based Offers</string>
+    <string name="title_activity_voice">VoiceActivity</string>
 </resources>

@@ -2,6 +2,7 @@ package com.example.ideathon;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -32,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent voiceIntent = new Intent(MainActivity.this, VoiceActivity.class);
+        startActivity(voiceIntent);
+
 
         RecyclerView vodafoneAdsRecyclerView = findViewById(R.id.main_recycler_view_vodafone_ads);
         vodafoneAdsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));

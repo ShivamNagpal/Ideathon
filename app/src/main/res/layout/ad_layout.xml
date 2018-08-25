@@ -6,15 +6,16 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:layout_marginLeft="12dp"
-    android:layout_marginTop="4dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="8dp">
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:background="@color/primary_dark">
 
@@ -22,20 +23,23 @@
             android:id="@+id/logo_image_view"
             android:layout_width="96dp"
             android:layout_height="96dp"
-            android:background="@drawable/rectangle"
+            android:scaleType="centerCrop"
+
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/company_text_view"
-            android:layout_width="wrap_content"
+            android:layout_width="96dp"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:layout_marginVertical="4dp"
+            android:padding="4dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/icons"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/logo_image_view"
@@ -44,10 +48,12 @@
 
         <TextView
             android:id="@+id/detail_text_view"
-            android:layout_width="wrap_content"
+            android:layout_width="96dp"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:padding="4dp"
+            android:maxLines="1"
             android:paddingBottom="4dp"
             android:textColor="@color/icons"
             android:textSize="12sp"
@@ -55,6 +61,17 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/company_text_view"
             tools:text="Details" />
+
+        <View
+            android:id="@+id/divider_image"
+            android:layout_width="96dp"
+            android:layout_height="2dp"
+            android:layout_marginBottom="4dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintBottom_toTopOf="@+id/company_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logo_image_view" />
 
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>
