@@ -3,6 +3,7 @@ package com.example.ideathon;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
@@ -280,7 +281,10 @@ public class MainActivity extends AppCompatActivity implements AdsAdapter.ItemCl
                 if (resultCode == RESULT_OK && null != data) {
                     ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
-                    Toast.makeText(MainActivity.this, result.get(0), Toast.LENGTH_SHORT).show();
+                    Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + result.get(0));
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                    mapIntent.setPackage("com.google.android.apps.maps");
+                    startActivity(mapIntent);
                 }
                 break;
             }
